@@ -30,6 +30,14 @@ def get_clean_addIns():
     except ValueError:
         print("Invalid value entered")
         return get_clean_addIns()
+def print_banner(text):
+    border = "="*(len(text)+8) #we will add an upper border to the recipt banner, and the hard coded 8  is for the === and the space that we add in the middle layer
+    print(border)
+    print('=== '+text+' ===')
+    print(border)
+
+
+
 
 def get_clean_milk():
     plantMilk = input("Would you like plant-based milk in your smoothie(y/n)? \n").lower()
@@ -61,8 +69,10 @@ def calculate_total(basePrice,addIns, plantMilk,vat):
 def test_totals():
     assert calculate_total(5,1,"y",0) == 12
     assert calculate_total(5,1,"y",0.1) == 13.2
+total = str(calculate_total(basePrice,addIns,milk,vat))
 
-print("Your total is: " + str(calculate_total(basePrice,addIns,milk,vat)))
+print_banner('ORDER SUMMARY')
+print("Your total is: " + total)
 print("Your base price was: " + str(basePrice))
 print("The cost for your addins was: " +str(int(addIns*addInPrice)))
 if milk == 'y':
