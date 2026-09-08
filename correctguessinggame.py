@@ -4,6 +4,8 @@ import math
 from unicodedata import numeric
 guesses = 0
 guesslist = []
+sum = 0
+
 def create_number(start,range):
     num = random.randint(start,range)
     return num
@@ -17,6 +19,8 @@ def eval_guess(guess,number):
         else:
             print("Correct")
         guesslist.append(guesses)
+        guesses = 0
+
         return True
     elif guess > number:
         print("The number is less than your guess")
@@ -34,13 +38,18 @@ def play_again(answer):
     else:
         return False 
 def eval_stats(guesslist,returnType):
+    global sum
     if returnType =="Playing again":
         print("Guesses this game: ", str(guesslist[-1]))
         print("Total games: ",str(len(guesslist)))
     if returnType == "Ending play":
         for i in guesslist:
             sum +=i
+        bestgame = min(guesslist)
         print("Total guesses: ",str(sum))
+        print("Total games",str(len(guesslist)))
+        print("Guesses per game" ,str(round(sum/len(guesslist),1)))
+        print("Best game", str(bestgame))
         
 
 
@@ -51,8 +60,8 @@ def run_game():
     while not guess:
         guess = eval_guess(int(input("Guess please")),num)
     if play_again(input("Would you like to play again")):
-        print("Playing again")
+        run_game()
     else:
-        print("Not playing again")
+        eval_stats(guesslist,"Ending play")
 
 run_game()
