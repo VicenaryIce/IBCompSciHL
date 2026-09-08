@@ -25,7 +25,6 @@ def run_game():
 
 
         try:
-
             if int(guess)==num:
                 guesses = guesses+1
                 break
