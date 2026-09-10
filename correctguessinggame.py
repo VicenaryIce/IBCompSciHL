@@ -56,10 +56,10 @@ def eval_stats(guesslist,returnType):
 def run_game():
     num  = create_number(0,100)
     print(num)
-    guess = eval_guess(int(input("Enter the number you are guessing")),num)
+    guess = eval_guess(int(input("I am thinking of a number from str(1) to str(100). What is it?: ")),num)
     while not guess:
-        guess = eval_guess(int(input("Guess please")),num)
-    if play_again(input("Would you like to play again")):
+        guess = eval_guess(int(input("Try again: ")),num)
+    if play_again(input("Would you like to play again? \n")):
         run_game()
     else:
         eval_stats(guesslist,"Ending play")
