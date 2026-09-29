@@ -1,1 +1,1 @@
-print("bing" or 'bang')
+print("" or 'bang')
