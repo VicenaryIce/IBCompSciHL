@@ -9,7 +9,6 @@ kidsCount = 0
 cityCount = 0
 eletricCount = 0
 
-
 def get_hourly_rate(bike_type):
     global kidsCount,cityCount,eletricCount
     if bike_type.lower() == "city":
@@ -34,9 +33,23 @@ def calculate_cost(rate,hours,weekend):
 def calculate_late(hours):
     return int(hours)*late_fee
 
-def print_fleet(rows,bikeperrow):
+def print_fleet(rows,bikeperrow,emptybikes):
+    test = []
+    """for i in range(rows+1):
+
+       print('[B]'*int(bikeperrow))"""
+    for i in range(emptybikes):
+        test.append('[ ]')
+    for i in range((rows*bikeperrow)-(emptybikes)):
+        test.append('[B]')
     for i in range(rows+1):
-       print('[B]'*int(bikeperrow))
+        lowerbound = (i)*bikeperrow
+        upperbound = (i+1)*bikeperrow
+        print(" ".join(test[lowerbound:upperbound]))
+
+
+    
+    
 def get_hours(hours):
     try:
         if int(hours) <0:
@@ -77,7 +90,7 @@ def mainloop():
     global biketype
     total_revenue = 0.0
     total_rentals = 0
-    print_fleet(4,5)
+    print_fleet(4,5,0)
 
     while biketype.lower() != 'done':
         biketype = str(input("What bike type was rented(City,Electric,Kids): "))
@@ -87,7 +100,7 @@ def mainloop():
         
         latehours = int(input("Late hours(0 if on time): "))
         rate = get_hourly_rate(biketype)
-        cost = calculate_cost(rate,hours,input("Is it weekend?")) + calculate_late(latehours)
+        cost = calculate_cost(rate,hours,input("Is it weekend?: ")) + calculate_late(latehours)
         total_rentals +=1
         total_revenue+=cost
         print("Total cost: ",cost)
@@ -95,12 +108,14 @@ def mainloop():
     print("---- Summary: ----")
     print("Total rentals: ",total_rentals)
     print("Total revenue: ",total_revenue)
+
     
     if total_rentals >0:
         print("Average revenue per rental: ",round((total_revenue/total_rentals),2))
     else:
         print("Average revenue per rental: ",0)
     print(get_best_bike())
+    print_fleet(4,5,total_rentals)
         
 
 mainloop()
