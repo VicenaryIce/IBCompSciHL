@@ -1,3 +1,6 @@
+import copy
+
+
 services = ['flat tyre','brakes','gears','full service']
 
 
@@ -14,6 +17,8 @@ class RepairJob:
         return self.jobID
     def getName(self):
         return self.name
+    def getPrice(self):
+        return self.price
 
 ###test = RepairJob(1,"david","oil change",200)
 ####test.describe()
@@ -109,7 +114,7 @@ def binarySearch(list,target):
     while left<=right:
         middle  = (left+right)//2
         if list[middle].getJobID() == target:
-            return list[middle]
+            return list[middle].describe()
         elif target < list[middle].getJobID():
             right = middle-1
         elif target > list[middle].getJobID():
@@ -123,9 +128,34 @@ def nameIndexJob(list,name):
             foundJobs.append(i.describe())
     return foundJobs
 
-print(nameIndexJob(jobboss,'Milan'))
+def selectionSort(list):
+    copylist = list.copy()
+    for i in range(len(copylist)-1):
+        minimum = i
+        for j in range(i+1,len(copylist)):
+            if copylist[j].getPrice() < copylist[minimum].getPrice():
+                minimum = j
+        if minimum != i:
+            copylist[i],copylist[minimum] = copylist[minimum],copylist[i]
+    return copylist[::-1]
 
-found_job = binarySearch(jobboss,201)
+def getReport(list):
+    totalcost = 0
+    with open('reports.txt','w') as file:
+        for job in list:
+            file.write(job.describe() + '\n')
+            totalcost += job.getPrice()
+        file.write("Total: " + str(totalcost) + '\n')
+    
+
+
+
+print(binarySearch(jobboss,206))
+print(binarySearch(jobboss,205))
+sorted_jobs = selectionSort(jobboss)
+for job in sorted_jobs:
+    print(job.describe())
+getReport(jobboss)
 
 """if found_job is not None:
     print("Found:", found_job.describe())

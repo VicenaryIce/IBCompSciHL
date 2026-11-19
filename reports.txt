@@ -1,0 +1,8 @@
+#201 Ruben - flat tyre (12.5)
+#202 Sanne - brakes (25.0)
+#203 Milan - gears (30.0)
+#204 Ruben - full service (65.0)
+#206 Femke - brakes (22.5)
+#207 Joost - flat tyre (10.0)
+#208 Milan - full service (60.0)
+Total: 225.0
