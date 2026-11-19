@@ -10,6 +10,10 @@ class RepairJob:
     def describe(self):
         self.description = "#"+str(self.jobID)+" "+self.name+" - "+self.service + " " +"("+str(self.price)+')'
         return self.description
+    def getJobID(self):
+        return self.jobID
+    def getName(self):
+        return self.name
 
 ###test = RepairJob(1,"david","oil change",200)
 ####test.describe()
@@ -19,7 +23,8 @@ class Queue:
     def enqueue(self,item):
         self.list.append(item)
     def dequeue(self):
-        self.list.pop(0)
+        done = self.list.pop(0)
+        return done 
     def front(self):
         return self.list[0]
     def isEmpty(self):
@@ -54,7 +59,7 @@ def load_jobs(filename):
                 print("Skipped: " +str(RepairJob(values[0],values[1],values[2],values[3]).describe()))
                 continue
             else:
-                job = RepairJob(values[0],values[1],values[2],values[3])
+                job = RepairJob(int(values[0]),values[1],values[2],float(values[3]))
             jobs.append(job)
     return jobs
 job_queue = Queue()
@@ -62,7 +67,78 @@ done_stack = Stack()
 
 jobboss = load_jobs('jobs.txt')
 
-for i in range(0,4):
+rack = [["", "", "", ""],
+        ["", 199, "", ""],
+        ["", "", "", ""]]
+
+for i in range(0,3):
     job_queue.enqueue(jobboss[i])
-    print(job_queue[i])
+
+for i in range(0,3):
+    done_stack.push(job_queue.dequeue())
+    print("Finished: " + done_stack.peek().describe())
+
+print('Reopened: ' + done_stack.pop().describe())
+
+def park(list,jobID):
+    for i in range(len(list)):
+        for x in range(len(list[i])):
+            if list[i][x] == "":
+                list[i][x] = jobID
+                return str(jobID) + ' --> ' + '(' + str(i) +"," +str(x) + ')'
+    print("Rack is full!")
+    return False
+def count(list):
+    freeSpots = 0
+    for i in range(len(list)):
+        for x in range(len(list[i])):
+            if list[i][x] == "":
+                freeSpots +=1
+    return 'Free spots: ' + str(freeSpots)
+
+print(count(rack))
+for i in jobboss:
+    print(park(rack,i.getJobID()))
+print(rack)
+
+print(count(rack))
+
+def binarySearch(list,target):
+
+    (left,right) = 0, len(list)-1
+    while left<=right:
+        middle  = (left+right)//2
+        if list[middle].getJobID() == target:
+            return list[middle]
+        elif target < list[middle].getJobID():
+            right = middle-1
+        elif target > list[middle].getJobID():
+            left = middle+1
+    return None
+
+def nameIndexJob(list,name):
+    foundJobs = []
+    for i in list:
+        if i.getName() ==name:
+            foundJobs.append(i.describe())
+    return foundJobs
+
+print(nameIndexJob(jobboss,'Milan'))
+
+found_job = binarySearch(jobboss,201)
+
+"""if found_job is not None:
+    print("Found:", found_job.describe())
+else:
+    print("Job not found")"""
+
+"""print(park(rack,done_stack.peek().getJobID()))
+print(rack)"""
+
+
+
+
+
+
+    
 
